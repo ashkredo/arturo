@@ -1,14 +1,14 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
-export default function Home() {
+const Users = () => {
   return (
     <div >
       <Head>
-        <title>Home | Arturo</title>
-        <meta name="description" content="Arturo home page" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Users | Arturo</title>
       </Head>
       <h1>Hello, world!</h1>
     </div>
   )
 }
+
+export default Users;
