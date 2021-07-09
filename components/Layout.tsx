@@ -1,5 +1,4 @@
-import React, { ReactNode } from "react";
-import Link from "next/link";
+import React, { FC, ReactNode } from "react";
 import Head from "next/head";
 
 type Props = {
@@ -7,8 +6,8 @@ type Props = {
   title?: string;
 };
 
-const Layout = ({ children, title = "Arturo" }: Props) => (
-  <div>
+const Layout: FC<Props> = ({ children, title = "Arturo" }: Props) => (
+  <div className="main-content">
     <Head>
       <title>{title}</title>
       <meta name="description" content="Arturo page" />

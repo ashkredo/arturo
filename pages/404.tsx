@@ -4,19 +4,8 @@ import { useRouter } from "next/router";
 import Link from "../components/Link";
 import Layout from "../components/Layout";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-}));
 
 const NotFound = () => {
-  const classes = useStyles();
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +16,7 @@ const NotFound = () => {
 
   return (
     <Layout title="404: Page Not Found">
-      <div className={classes.paper}>
+      <div style={{ textAlign: "center" }}>
         <Typography component="h2" variant="h1" gutterBottom>
           404
         </Typography>
