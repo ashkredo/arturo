@@ -1,14 +1,12 @@
-import Head from 'next/head';
+import Head from "next/head";
+import Layout from "../components/Layout";
 
 const Users = () => {
   return (
-    <div >
-      <Head>
-        <title>Users | Arturo</title>
-      </Head>
+    <Layout title="Users | Arturo">
       <h1>Hello, world!</h1>
-    </div>
-  )
-}
+    </Layout>
+  );
+};
 
 export default Users;
