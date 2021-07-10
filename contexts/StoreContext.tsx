@@ -1,4 +1,5 @@
 import { createContext, useState, ReactNode } from "react";
+import { User, Post } from "../interfaces";
 
 const StoreContext = createContext<any>(null);
 
@@ -7,7 +8,13 @@ type Props = {
 };
 
 const StoreProvider = ({ children }: Props) => {
-  const [users, setUsers] = useState([]);
+  const [state, setState] = useState({
+    users: [],
+    selectedUser: {
+      user: {},
+      posts: [],
+    },
+  });
 
   const refreshUsers = async () => {
     try {
@@ -15,13 +22,23 @@ const StoreProvider = ({ children }: Props) => {
         "https://jsonplaceholder.typicode.com/users?_limit=8"
       );
       const latestUsers = await res.json();
-      setUsers(latestUsers);
+      setState({ users: latestUsers, selectedUser: state.selectedUser });
     } catch (err) {
       console.error(err);
     }
   };
 
-  const value = { users, setUsers, refreshUsers };
+  const setSelectedUser = (user: User, posts: any) => {
+    setState({ ...state, selectedUser: { user: user, posts: posts } });
+  };
+
+  const value = {
+    users: state.users,
+    refreshUsers,
+    user: state.selectedUser.user,
+    posts: state.selectedUser.posts,
+    setSelectedUser,
+  };
 
   return (
     <>

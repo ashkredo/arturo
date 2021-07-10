@@ -7,14 +7,16 @@ const theme = createTheme({
             white: '#ffffff',
         },
         primary: {
-            light: '#B3E5FC',
-            main: '#03A9F4',
-            dark: '#0288D1',
-            contrastText: '#212121',
+            light: '#757ce8',
+            main: '#3f50b5',
+            dark: '#002884',
+            contrastText: '#fff',
         },
         secondary: {
-            main: '#607D8B',
-            contrastText: '#757575',
+            light: '#ff7961',
+            main: '#f44336',
+            dark: '#ba000d',
+            contrastText: '#000',
         },
         grey: {
             '500': '#bcbcbc',

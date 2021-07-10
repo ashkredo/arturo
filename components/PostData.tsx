@@ -21,10 +21,9 @@ const PostData: FC<Post> = (props: Post) => {
             </Box>
             <Box p={1} width="100%">
               <Typography component="h2" variant="h5">
-                {/* {props.title.length > 90
-                ? `${props.title.substring(0, 90)}...`
-                : props.title} */}
-                {props.title}
+                {props.title.length > 50
+                  ? `${props.title.substring(0, 50)}...`
+                  : props.title}
               </Typography>
             </Box>
             <Box p={1} flexShrink={0}>

@@ -1,7 +1,8 @@
+import { useContext, useEffect } from "react";
 import { GetStaticProps } from "next";
 import { User, Post } from "../../interfaces";
+import { StoreContext } from "../../contexts/StoreContext";
 import Layout from "../../components/Layout";
-import { Container } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import PostsList from "../../components/PostsList";
 
@@ -12,6 +13,11 @@ type Props = {
 };
 
 const UserPosts = (props: Props) => {
+  const { user, posts, setSelectedUser } = useContext(StoreContext);
+  useEffect(() => {
+    setSelectedUser(props.user, props.posts);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   if (props.errors) {
     return (
       <Layout title="404: Page Not Found">
@@ -23,7 +29,7 @@ const UserPosts = (props: Props) => {
   }
   return (
     <Layout title={`Posts User ${props.user?.id} | Arturo`}>
-      <PostsList {...props} />
+      <PostsList user={user} posts={posts} />
     </Layout>
   );
 };

@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
 type Props = {
   user: User;
   posts: Post[];
-  errors?: string;
 };
 
 const PostsList: FC<Props> = (props: Props) => {
