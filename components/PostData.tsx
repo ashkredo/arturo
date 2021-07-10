@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import { Post } from "../interfaces";
 import { StoreContext } from "../contexts/StoreContext";
 import Typography from "@material-ui/core/Typography";
@@ -8,8 +8,10 @@ import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
+import ConfirmDialog from "../components/ConfirmDialog";
 
 const PostData: FC<Post> = (props: Post) => {
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const { deleteSelectedUserPost } = useContext(StoreContext);
 
   const onDelete = (id: number) => {
@@ -25,7 +27,7 @@ const PostData: FC<Post> = (props: Post) => {
               <IconButton
                 aria-label="delete"
                 color="secondary"
-                onClick={() => onDelete(props.id)}
+                onClick={() => setConfirmOpen(true)}
               >
                 <DeleteIcon fontSize="large" />
               </IconButton>
@@ -43,6 +45,16 @@ const PostData: FC<Post> = (props: Post) => {
           </Box>
         </Card>
       </CardActionArea>
+      <ConfirmDialog
+        title={`Are you sure you want to remove post ${props.id}?`}
+        open={confirmOpen}
+        setOpen={setConfirmOpen}
+        onConfirm={() => onDelete(props.id)}
+      >
+        <Typography component="h2" variant="subtitle1" color="primary" noWrap>
+          {props.title}
+        </Typography>
+      </ConfirmDialog>
     </div>
   );
 };
