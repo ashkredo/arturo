@@ -1,6 +1,7 @@
 import React, { FC, useContext, useState } from "react";
 import { Post } from "../interfaces";
 import { StoreContext } from "../contexts/StoreContext";
+import { useToasts } from "react-toast-notifications";
 import Typography from "@material-ui/core/Typography";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -11,11 +12,15 @@ import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const PostData: FC<Post> = (props: Post) => {
+  const { addToast } = useToasts();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const { deleteSelectedUserPost } = useContext(StoreContext);
 
   const onDelete = (id: number) => {
     deleteSelectedUserPost(id);
+    addToast(`Post ${id} deleted`, {
+      appearance: "success",
+    });
   };
 
   return (
