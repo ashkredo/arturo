@@ -22,7 +22,7 @@ const StoreProvider = ({ children }: Props) => {
         "https://jsonplaceholder.typicode.com/users?_limit=8"
       );
       const latestUsers = await res.json();
-      setState({ users: latestUsers, selectedUser: state.selectedUser });
+      setState({ ...state, users: latestUsers });
     } catch (err) {
       console.error(err);
     }
@@ -32,12 +32,38 @@ const StoreProvider = ({ children }: Props) => {
     setState({ ...state, selectedUser: { user: user, posts: posts } });
   };
 
+  const deleteSelectedUserPost = async (id: number) => {
+    try {
+      const res = await fetch(
+        `https://jsonplaceholder.typicode.com/posts/${id}`,
+        {
+          method: "Delete",
+        }
+      );
+
+      if (res.status === 200) {
+        setState({
+          ...state,
+          selectedUser: {
+            user: state.selectedUser.user,
+            posts: state.selectedUser.posts.filter(
+              (post: { id: number }) => post.id !== id && { ...post }
+            ),
+          },
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const value = {
     users: state.users,
     refreshUsers,
     user: state.selectedUser.user,
     posts: state.selectedUser.posts,
     setSelectedUser,
+    deleteSelectedUserPost,
   };
 
   return (
