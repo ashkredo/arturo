@@ -40,7 +40,6 @@ const StoreProvider = ({ children }: Props) => {
           method: "Delete",
         }
       );
-
       if (res.status === 200) {
         setState({
           ...state,
@@ -57,6 +56,34 @@ const StoreProvider = ({ children }: Props) => {
     }
   };
 
+  const addSelectedUserPost = async (post: Post) => {
+    try {
+      const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          title: post.title,
+          body: post.body,
+          userId: post.userId,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      const newPost = await res.json();
+      if (res.status === 201) {
+        setState({
+          ...state,
+          selectedUser: {
+            user: state.selectedUser.user,
+            posts: [...state.selectedUser.posts, newPost] as any,
+          },
+        });
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const value = {
     users: state.users,
     refreshUsers,
@@ -64,6 +91,7 @@ const StoreProvider = ({ children }: Props) => {
     posts: state.selectedUser.posts,
     setSelectedUser,
     deleteSelectedUserPost,
+    addSelectedUserPost,
   };
 
   return (

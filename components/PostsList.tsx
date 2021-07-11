@@ -1,14 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useContext, useState } from "react";
 import { User, Post } from "../interfaces";
+import { StoreContext } from "../contexts/StoreContext";
+import { useToasts } from "react-toast-notifications";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import { Container } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import Modal from "./Modal";
 import PostData from "./PostData";
+import PostForm from "./PostForm";
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -28,6 +33,16 @@ const useStyles = makeStyles((theme) => ({
   mainGrid: {
     marginTop: theme.spacing(2),
   },
+  paper: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(2),
+      marginBottom: theme.spacing(2),
+      padding: theme.spacing(3),
+    },
+  },
 }));
 
 type Props = {
@@ -36,11 +51,39 @@ type Props = {
 };
 
 const PostsList: FC<Props> = (props: Props) => {
+  const { addToast } = useToasts();
   const classes = useStyles();
+  const { addSelectedUserPost } = useContext(StoreContext);
+  const [isAddPostDataModalOpen, toggleAddPostDataModal] = useState(false);
+
+  const onAdd = (post: Post) => {
+    addSelectedUserPost({
+      title: post.title,
+      body: post.body,
+      userId: props.user.id,
+    })
+      .then(toggleAddPostDataModal(!isAddPostDataModalOpen))
+      .then(
+        addToast(`Post ${post.title} added`, {
+          appearance: "success",
+        })
+      );
+  };
 
   return (
     <Container>
       <div className={classes.mainContent}>
+        <Modal
+          open={isAddPostDataModalOpen}
+          onClose={() => toggleAddPostDataModal(!isAddPostDataModalOpen)}
+        >
+          <Paper className={classes.paper}>
+            <PostForm
+              onSubmit={(post: Post) => onAdd(post)}
+              onClose={() => toggleAddPostDataModal(!isAddPostDataModalOpen)}
+            />
+          </Paper>
+        </Modal>
         <Toolbar className={classes.toolbar}>
           <IconButton color="primary" href="/" aria-label="back">
             <ArrowBackIcon fontSize="large" />
@@ -58,7 +101,12 @@ const PostsList: FC<Props> = (props: Props) => {
           >
             {props.user.name}
           </Typography>
-          <IconButton size="small" aria-label="add" color="primary">
+          <IconButton
+            size="small"
+            aria-label="add"
+            color="primary"
+            onClick={() => toggleAddPostDataModal(!isAddPostDataModalOpen)}
+          >
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Toolbar>
