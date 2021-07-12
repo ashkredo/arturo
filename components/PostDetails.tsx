@@ -1,11 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { User, Post, Comment } from "../interfaces";
 import { makeStyles } from "@material-ui/core/styles";
 import { Container } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import CommentIcon from "@material-ui/icons/Comment";
+import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
+import Grid from "@material-ui/core/Grid";
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles((theme) => ({
   mainContent: {
@@ -32,6 +36,7 @@ type Props = {
 
 const PostDetails: FC<Props> = (props: Props) => {
   const classes = useStyles();
+  const [isShowComments, setIsShowComments] = useState(false);
   return (
     <Container>
       <div className={classes.mainContent}>
@@ -60,7 +65,7 @@ const PostDetails: FC<Props> = (props: Props) => {
         <Typography
           component="h2"
           variant="h5"
-          color="inherit"
+          style={{ color: "#f57c00" }}
           align="center"
           className={classes.toolbarTitle}
         >
@@ -70,11 +75,63 @@ const PostDetails: FC<Props> = (props: Props) => {
           component="h2"
           variant="h4"
           color="inherit"
-          align="left"
+          align="center"
           className={classes.toolbarTitle}
         >
           {props.post.body}
         </Typography>
+        <IconButton
+          color="primary"
+          aria-label="back"
+          onClick={() => {
+            setIsShowComments(!isShowComments);
+          }}
+        >
+          <CommentIcon fontSize="large" />
+          <Typography variant="subtitle2" color="primary">
+            Show comments
+          </Typography>
+        </IconButton>
+        {isShowComments &&
+          props.comments &&
+          props.comments.map((comment) => (
+            <Card
+              key={comment.id}
+              style={{
+                marginBottom: "1%",
+                padding: "1%",
+                border: "0.5px solid black",
+              }}
+            >
+              <Grid container spacing={1}>
+                <Grid item sm={8}>
+                  <Typography align="left" component="h5" variant="h5">
+                    {comment.name}
+                  </Typography>
+                </Grid>
+                <Grid item sm={4}>
+                  <Typography
+                    align="right"
+                    component="h5"
+                    variant="h5"
+                    color="primary"
+                  >
+                    {comment.email}
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Divider />
+              <Grid item xs={12}>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  component="p"
+                >
+                  {comment.body}
+                </Typography>
+              </Grid>
+            </Card>
+          ))}
       </div>
     </Container>
   );
