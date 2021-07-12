@@ -8,7 +8,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import Box from "@material-ui/core/Box";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardArrowRightIcon from "@material-ui/icons/KeyboardArrowRight";
 import ConfirmDialog from "../components/ConfirmDialog";
 
 const PostData: FC<Post> = (props: Post) => {
@@ -24,32 +23,30 @@ const PostData: FC<Post> = (props: Post) => {
   };
 
   return (
-    <div>
-      <CardActionArea component="a" href={`/user/${props.userId}/${props.id}`}>
-        <Card>
-          <Box display="flex" p={1} alignItems="center">
-            <Box p={1} flexShrink={1}>
-              <IconButton
-                aria-label="delete"
-                color="secondary"
-                onClick={() => setConfirmOpen(true)}
-              >
-                <DeleteIcon fontSize="large" />
-              </IconButton>
-            </Box>
-            <Box p={1} width="100%">
-              <Typography component="h2" variant="h5">
-                {props.title.length > 50
-                  ? `${props.title.substring(0, 50)}...`
-                  : props.title}
-              </Typography>
-            </Box>
-            <Box p={1} flexShrink={0}>
-              <KeyboardArrowRightIcon fontSize="large" color="primary" />
-            </Box>
+    <Card>
+      <Box display="flex" p={1} alignItems="center">
+        <Box p={1} flexShrink={1}>
+          <IconButton
+            aria-label="delete"
+            color="secondary"
+            onClick={() => setConfirmOpen(true)}
+          >
+            <DeleteIcon fontSize="large" />
+          </IconButton>
+        </Box>
+        <CardActionArea
+          component="a"
+          href={`/user/${props.userId}/${props.id}`}
+        >
+          <Box p={1} width="100%">
+            <Typography component="h2" variant="h5">
+              {props.title.length > 50
+                ? `${props.title.substring(0, 50)}...`
+                : props.title}
+            </Typography>
           </Box>
-        </Card>
-      </CardActionArea>
+        </CardActionArea>
+      </Box>
       <ConfirmDialog
         title={`Are you sure you want to remove post ${props.id}?`}
         open={confirmOpen}
@@ -60,7 +57,7 @@ const PostData: FC<Post> = (props: Post) => {
           {props.title}
         </Typography>
       </ConfirmDialog>
-    </div>
+    </Card>
   );
 };
 
