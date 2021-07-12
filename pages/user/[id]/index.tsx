@@ -1,10 +1,10 @@
 import { useContext, useEffect } from "react";
 import { GetStaticProps } from "next";
-import { User, Post } from "../../interfaces";
-import { StoreContext } from "../../contexts/StoreContext";
-import Layout from "../../components/Layout";
+import { User, Post } from "../../../interfaces";
+import { StoreContext } from "../../../contexts/StoreContext";
+import Layout from "../../../components/Layout";
 import Typography from "@material-ui/core/Typography";
-import PostsList from "../../components/PostsList";
+import PostsList from "../../../components/PostsList";
 
 type Props = {
   user: User;

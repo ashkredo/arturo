@@ -14,6 +14,11 @@ const StoreProvider = ({ children }: Props) => {
       user: {},
       posts: [],
     },
+    selectedPost: {
+      user: {},
+      post: {},
+      comments: [],
+    },
   });
 
   const refreshUsers = async () => {
@@ -84,6 +89,13 @@ const StoreProvider = ({ children }: Props) => {
     }
   };
 
+  const setSelectedPost = (user: User, post: Post, comments: any) => {
+    setState({
+      ...state,
+      selectedPost: { user: user, post: post, comments: comments },
+    });
+  };
+
   const value = {
     users: state.users,
     refreshUsers,
@@ -92,6 +104,8 @@ const StoreProvider = ({ children }: Props) => {
     setSelectedUser,
     deleteSelectedUserPost,
     addSelectedUserPost,
+    selectedPost: state.selectedPost,
+    setSelectedPost,
   };
 
   return (

@@ -25,7 +25,7 @@ const PostData: FC<Post> = (props: Post) => {
 
   return (
     <div>
-      <CardActionArea component="a">
+      <CardActionArea component="a" href={`/user/${props.userId}/${props.id}`}>
         <Card>
           <Box display="flex" p={1} alignItems="center">
             <Box p={1} flexShrink={1}>
